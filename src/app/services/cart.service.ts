@@ -9,7 +9,7 @@ export class CartService {
 
   addToCart(product: Product) {
     const item = this.cart.find((p) => p.id === product.id);
-    if (item) item.quantity! += product.quantity!;
+    if (item) item.quantity += product.quantity;
     else this.cart.push({ ...product });
   }
 
@@ -27,7 +27,7 @@ export class CartService {
   }
 
   getTotal() {
-    return this.cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
+    return this.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   }
 
   clearCart() {

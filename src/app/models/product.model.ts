@@ -5,5 +5,5 @@ export interface Product {
   qty: number;
   amount: number;
   imageUrl: string;
-  quantity?: number;
+  quantity: number;
 }
