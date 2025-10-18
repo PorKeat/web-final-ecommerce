@@ -1,13 +1,14 @@
 <!-- Navbar -->
-<nav class="sticky top-0 z-50 w-full border-b border-gray-200 bg-background/80 backdrop-blur-xl">
+<nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-white backdrop-blur-xl shadow-sm">
   <div class="container mx-auto px-6 lg:px-8">
     <div class="flex h-20 items-center justify-between">
+      <!-- Left Section: Logo & Menu -->
       <div class="flex items-center gap-12">
-        <button class="md:hidden -ml-2">
-          <!-- Simple menu icon (replace with your icon library if you use one) -->
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden p-2 rounded-md hover:bg-gray-100 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            class="h-6 w-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -17,30 +18,33 @@
           </svg>
         </button>
 
-        <a routerLink="/" class="flex items-center">
-          <span class="text-xl font-medium tracking-tight text-foreground">SV3</span>
+        <!-- Logo -->
+        <a routerLink="/" class="flex items-center gap-2">
+          <span class="text-2xl font-extrabold tracking-tight text-black">SV3</span>
         </a>
 
+        <!-- Desktop Menu -->
         <nav class="hidden md:flex gap-8">
           <a
             routerLink="/"
-            class="text-sm cursor-pointer font-medium text-foreground/60 hover:text-foreground transition-colors"
+            class="text-sm font-medium text-gray-600 hover:text-black transition-colors"
             >Home</a
           >
           <a
             routerLink="/about"
-            class="text-sm cursor-pointer font-medium text-foreground/60 hover:text-foreground transition-colors"
+            class="text-sm font-medium text-gray-600 hover:text-black transition-colors"
             >About</a
           >
         </nav>
       </div>
 
-      <div class="flex items-center gap-2">
-        <button class="hidden md:flex">
-          <!-- Search icon -->
+      <!-- Right Section: Search & Cart -->
+      <div class="flex items-center gap-4">
+        <!-- Search Button -->
+        <button class="hidden md:flex p-2 rounded-full hover:bg-gray-100 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            class="h-5 w-5 text-gray-600"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -50,11 +54,12 @@
             <path d="M21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
-        <a routerLink="/cart" class="relative cursor-pointer">
-          <!-- Shopping cart icon -->
+
+        <!-- Cart -->
+        <a routerLink="/cart" class="relative p-2 rounded-full hover:bg-gray-100 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            class="h-6 w-6 text-gray-600"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -67,7 +72,7 @@
 
           <span
             *ngIf="cartCount > 0"
-            class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-medium"
+            class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-medium shadow-md"
           >
             {{ cartCount }}
           </span>
@@ -77,10 +82,9 @@
   </div>
 </nav>
 
-<!-- Main content rendered by the router -->
-<main class="p-4 min-h-screen">
-  <router-outlet></router-outlet>
-</main>
+<router-outlet></router-outlet>
 
-<!-- Global Footer -->
-<footer class="bg-gray-100 text-gray-600 text-center p-4 mt-8">&copy; 2025 My Store</footer>
+<!-- Footer -->
+<footer class="bg-white pt-20 pb-5 text-center text-gray-600">
+  &copy; {{ currentYear }} SV3 Electronics. All rights reserved.
+</footer>

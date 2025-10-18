@@ -6,12 +6,13 @@ import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   product?: Product;
@@ -20,7 +21,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   error = '';
   selectedImageIndex = 0;
 
-  // Mock product images for gallery - replace with actual product images
   productImages: string[] = [];
 
   private routeSub?: Subscription;
@@ -52,7 +52,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.product = await this.productService.getProductById(id);
 
       if (this.product) {
-        const cartItem = this.cartService.getCart().find(p => p.id === this.product!.id);
+        const cartItem = this.cartService.getCart().find((p) => p.id === this.product!.id);
         if (cartItem) {
           this.quantity = cartItem.quantity;
         }

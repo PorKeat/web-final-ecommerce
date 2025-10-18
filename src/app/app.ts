@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CartService } from './services/cart.service';
 import { CommonModule } from '@angular/common';
@@ -8,17 +8,18 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
 })
-export class App implements OnInit {
-  protected readonly title = signal('web-final');
-  cartCount = 0;
+export class App {
+  protected readonly title = 'web-final';
+  currentYear: number;
 
-  constructor(private cartService: CartService) {}
+  constructor(public cartService: CartService) {
+    this.currentYear = new Date().getFullYear();
+  }
 
-  ngOnInit() {
-    this.cartService.cartCount$.subscribe(count => {
-      this.cartCount = count;
-    });
+  // Use a getter to read count directly from service
+  get cartCount() {
+    return this.cartService.getCart().reduce((acc, item) => acc + (item.quantity || 1), 0);
   }
 }

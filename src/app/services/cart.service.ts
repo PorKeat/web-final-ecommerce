@@ -21,9 +21,10 @@ export class CartService {
   addToCart(product: Product) {
     const item = this.cart.find((p) => p.id === product.id);
     if (item) {
-      item.quantity = product.quantity;
+      // Increment quantity by 1 if product already exists
+      item.quantity = (item.quantity || 1) + 1;
     } else {
-      this.cart.push({ ...product });
+      this.cart.push({ ...product, quantity: 1 });
     }
     this.updateCartCount();
     this.saveCart();
@@ -61,7 +62,7 @@ export class CartService {
   }
 
   private updateCartCount() {
-    const count = this.cart.reduce((acc, item) => acc + item.quantity, 0);
+    const count = this.cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
     this.cartCount.next(count);
   }
 
