@@ -1,32 +1,20 @@
 [
   {
     "id": 1,
-    "image": "/assets/modern-minimalist-product-photography.jpg",
+    "image": "/asset/cambodia.png",
     "title": "Premium Collection",
     "description": "Discover our latest curated selection"
   },
   {
     "id": 2,
-    "image": "/assets/elegant-lifestyle-product-shot.jpg",
+    "image": "/asset/coca.jpg",
     "title": "Timeless Design",
     "description": "Crafted with attention to detail"
   },
   {
     "id": 3,
-    "image": "/assets/luxury-product-showcase.png",
+    "image": "/asset/monster.png",
     "title": "Exceptional Quality",
     "description": "Experience the difference"
-  },
-  {
-    "id": 4,
-    "image": "/assets/contemporary-product-display.jpg",
-    "title": "Modern Aesthetics",
-    "description": "Where form meets function"
-  },
-  {
-    "id": 5,
-    "image": "/assets/sophisticated-product-presentation.jpg",
-    "title": "Refined Elegance",
-    "description": "Elevate your everyday"
   }
 ]
