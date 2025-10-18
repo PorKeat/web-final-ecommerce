@@ -1,24 +1,310 @@
-<div class="p-4 max-w-3xl mx-auto">
-  <img [src]="product.imageUrl" alt="{{ product.name }}" class="w-full h-64 object-cover rounded" />
-  <h2 class="mt-4 text-2xl font-bold">{{ product.name }}</h2>
-  <p class="mt-2 text-gray-700">Price: ${{ product.price }}</p>
-  <p class="mt-1 text-gray-500">Available: {{ product.qty }}</p>
-
-  <div class="mt-4">
-    <label>Quantity:</label>
-    <input
-      type="number"
-      [(ngModel)]="quantity"
-      [min]="1"
-      [max]="product.qty"
-      class="border rounded px-2 py-1 w-20"
-    />
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Loading State -->
+  <div *ngIf="!product" class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden p-12">
+      <div class="animate-pulse">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="aspect-square bg-gray-200 rounded-2xl"></div>
+          <div class="space-y-4">
+            <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+            <div class="h-32 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <button
-    (click)="addToCart()"
-    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-  >
-    Add to Cart
-  </button>
+  <!-- Product Content -->
+  <div *ngIf="product" class="max-w-7xl mx-auto">
+    <!-- Breadcrumb Navigation -->
+    <nav class="flex items-center gap-2 text-sm text-gray-600 mb-6">
+      <a routerLink="/" class="hover:text-indigo-600 transition-colors">Home</a>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+      <a routerLink="/products" class="hover:text-indigo-600 transition-colors">Products</a>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+      <span class="text-gray-900 font-medium truncate">{{ product.name }}</span>
+    </nav>
+
+    <!-- Main Product Card -->
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 lg:p-12">
+        
+        <!-- Left Column - Image Gallery -->
+        <div class="space-y-4">
+          <!-- Main Image -->
+          <div class="relative group">
+            <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden">
+              <img 
+                [src]="product.imageUrl || '/assets/placeholder.svg'" 
+                [alt]="product.name" 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+            
+            <!-- Image Zoom Icon -->
+            <button class="absolute top-4 right-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white">
+              <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/>
+              </svg>
+            </button>
+
+            <!-- Wishlist & Share -->
+            <div class="absolute top-4 left-4 flex gap-2">
+              <button class="p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all hover:scale-110 active:scale-95">
+                <svg class="w-5 h-5 text-gray-700 hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              </button>
+              <button class="p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all hover:scale-110 active:scale-95">
+                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Thumbnail Gallery -->
+          <div class="grid grid-cols-4 gap-3">
+            <div *ngFor="let i of [1,2,3,4]" class="aspect-square bg-gray-100 rounded-xl overflow-hidden border-2 border-transparent hover:border-indigo-600 cursor-pointer transition-all">
+              <img [src]="product.imageUrl" [alt]="'Thumbnail ' + i" class="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Product Info -->
+        <div class="flex flex-col">
+          <!-- Category & Ratings -->
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold uppercase tracking-wide">
+              Electronics
+            </span>
+            <div class="flex items-center gap-2">
+              <div class="flex items-center gap-1">
+                <svg *ngFor="let star of [1,2,3,4,5]" class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">4.8</span>
+              <span class="text-sm text-gray-500">(324 reviews)</span>
+            </div>
+          </div>
+
+          <!-- Product Name -->
+          <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+            {{ product.name }}
+          </h1>
+
+          <!-- Short Description -->
+          <p class="text-gray-600 text-base leading-relaxed mb-6">
+            Premium quality product with exceptional features and modern design. Perfect for everyday use with outstanding performance.
+          </p>
+
+          <!-- Price Section -->
+          <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 mb-6">
+            <div class="flex items-end gap-4 mb-3">
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Price</p>
+                <p class="text-4xl font-bold text-gray-900">
+                  ${{ product.price | number:'1.2-2' }}
+                </p>
+              </div>
+            </div>
+            
+            <!-- Stock Status -->
+            <div class="flex items-center gap-2">
+              <div 
+                [ngClass]="{
+                  'bg-emerald-500': product.qty > 10,
+                  'bg-amber-500': product.qty > 0 && product.qty <= 10,
+                  'bg-red-500': product.qty === 0
+                }"
+                class="w-2.5 h-2.5 rounded-full animate-pulse"
+              ></div>
+              <p class="text-sm font-medium" [ngClass]="{
+                'text-emerald-700': product.qty > 10,
+                'text-amber-700': product.qty > 0 && product.qty <= 10,
+                'text-red-700': product.qty === 0
+              }">
+                <span *ngIf="product.qty > 10">In Stock - {{ product.qty }} available</span>
+                <span *ngIf="product.qty > 0 && product.qty <= 10">Low Stock - Only {{ product.qty }} left!</span>
+                <span *ngIf="product.qty === 0">Out of Stock</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-900 mb-3">Quantity</label>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200 focus-within:border-indigo-600 transition-colors">
+                <button 
+                  (click)="quantity = quantity > 1 ? quantity - 1 : 1"
+                  [disabled]="quantity <= 1"
+                  class="px-5 py-3 text-gray-700 hover:bg-gray-200 active:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                  </svg>
+                </button>
+                <input
+                  type="number"
+                  [(ngModel)]="quantity"
+                  [min]="1"
+                  [max]="product.qty"
+                  class="w-20 text-center text-lg font-semibold bg-transparent border-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <button 
+                  (click)="quantity = quantity < product.qty ? quantity + 1 : product.qty"
+                  [disabled]="quantity >= product.qty"
+                  class="px-5 py-3 text-gray-700 hover:bg-gray-200 active:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="text-sm text-gray-500">Maximum {{ product.qty }} per order</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <button
+              (click)="addToCart()"
+              [disabled]="product.qty === 0"
+              class="flex-1 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-4 px-8 rounded-xl font-semibold text-lg transition-all duration-300 hover:from-indigo-700 hover:to-indigo-800 hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-3 group"
+            >
+              <svg class="w-6 h-6 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+              </svg>
+              <span *ngIf="product.qty > 0">Add to Cart</span>
+              <span *ngIf="product.qty === 0">Out of Stock</span>
+            </button>
+            
+            <button
+              (click)="addToCart()"
+              [disabled]="product.qty === 0"
+              class="flex-1 bg-white border-2 border-indigo-600 text-indigo-600 py-4 px-8 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-indigo-50 hover:shadow-lg hover:-translate-y-1 active:translate-y-0 disabled:border-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-white flex items-center justify-center gap-3"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              Buy Now
+            </button>
+          </div>
+
+          <!-- Features/Benefits -->
+          <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Key Features</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-gray-700">Premium build quality and materials</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-gray-700">2-year warranty included</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-gray-700">Free shipping on all orders</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-gray-700">30-day money-back guarantee</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Delivery Info -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+              <div class="p-2 bg-indigo-100 rounded-lg">
+                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-600">Delivery</p>
+                <p class="text-sm font-semibold text-gray-900">2-3 Days</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+              <div class="p-2 bg-emerald-100 rounded-lg">
+                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-600">Warranty</p>
+                <p class="text-sm font-semibold text-gray-900">2 Years</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+              <div class="p-2 bg-purple-100 rounded-lg">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-600">Returns</p>
+                <p class="text-sm font-semibold text-gray-900">30 Days</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Description Section -->
+    <div class="mt-8 bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div class="border-b border-gray-200">
+        <nav class="flex">
+          <button class="flex-1 py-5 px-6 text-center font-semibold text-indigo-600 border-b-2 border-indigo-600 transition-colors">
+            Description
+          </button>
+          <button class="flex-1 py-5 px-6 text-center font-semibold text-gray-500 hover:text-gray-700 transition-colors">
+            Reviews (324)
+          </button>
+          <button class="flex-1 py-5 px-6 text-center font-semibold text-gray-500 hover:text-gray-700 transition-colors">
+            Specifications
+          </button>
+        </nav>
+      </div>
+      
+      <div class="p-8 lg:p-12">
+        <div class="prose prose-lg max-w-none text-gray-700">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Product Description</h3>
+          <p class="mb-4">
+            Experience unparalleled quality and performance with this exceptional product. Crafted with precision and attention to detail, it combines modern design with practical functionality.
+          </p>
+          <p class="mb-4">
+            Every aspect has been carefully considered to provide you with the best possible user experience. From the premium materials to the innovative features, this product stands out in its category.
+          </p>
+          <h4 class="text-xl font-bold text-gray-900 mt-6 mb-3">What's Included</h4>
+          <ul class="space-y-2 list-disc list-inside">
+            <li>1x {{ product.name }}</li>
+            <li>User Manual & Quick Start Guide</li>
+            <li>Premium Carrying Case</li>
+            <li>2-Year Warranty Card</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
+import { ProductCard } from "../../components/product-card/product-card";
+import { ProductCarouselComponent } from "../../components/silder/silder";
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ProductCard, ProductCarouselComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
