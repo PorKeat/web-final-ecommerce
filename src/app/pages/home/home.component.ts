@@ -4,9 +4,8 @@ import { RouterModule, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../models/product.model';
-import { ProductCard } from "../../components/product-card/product-card";
-import { ProductCarouselComponent } from "../../components/silder/silder";
-
+import { ProductCard } from '../../components/product-card/product-card';
+import { ProductCarouselComponent } from '../../components/silder/silder';
 
 @Component({
   selector: 'app-home',
@@ -44,4 +43,3 @@ export class HomeComponent implements OnInit {
     this.cartService.addToCart({ ...product, quantity: 1 });
   }
 }
-  
