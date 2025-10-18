@@ -1,0 +1,51 @@
+<div class="p-4 max-w-3xl mx-auto">
+  <div *ngIf="!orderPlaced">
+    <h2 class="text-2xl font-bold mb-4">Checkout</h2>
+
+    <h3 class="font-semibold">Order Summary</h3>
+    <ul class="mb-4">
+      <li *ngFor="let item of cart">
+        {{ item.name }} x {{ item.quantity }} - ${{ item.price * (item.quantity || 1) }}
+      </li>
+    </ul>
+    <h3 class="text-lg font-bold mb-4">Total: ${{ total }}</h3>
+
+    <form (ngSubmit)="submitOrder()" class="space-y-4">
+      <input
+        [(ngModel)]="customer.name"
+        name="name"
+        placeholder="Name"
+        required
+        class="border p-2 w-full rounded"
+      />
+      <input
+        [(ngModel)]="customer.email"
+        name="email"
+        placeholder="Email"
+        required
+        class="border p-2 w-full rounded"
+      />
+      <input
+        [(ngModel)]="customer.address"
+        name="address"
+        placeholder="Address"
+        required
+        class="border p-2 w-full rounded"
+      />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Place Order
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="orderPlaced">
+    <h2 class="text-2xl font-bold mb-2">Thank you for your order!</h2>
+    <h3 class="font-semibold">Invoice</h3>
+    <ul class="mb-4">
+      <li *ngFor="let item of cart">
+        {{ item.name }} x {{ item.quantity }} - ${{ item.price * (item.quantity || 1) }}
+      </li>
+    </ul>
+    <h3 class="text-lg font-bold">Total: ${{ total }}</h3>
+  </div>
+</div>

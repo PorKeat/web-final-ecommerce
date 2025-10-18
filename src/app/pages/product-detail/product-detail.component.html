@@ -1,0 +1,24 @@
+<div class="p-4 max-w-3xl mx-auto">
+  <img [src]="product.imageUrl" alt="{{ product.name }}" class="w-full h-64 object-cover rounded" />
+  <h2 class="mt-4 text-2xl font-bold">{{ product.name }}</h2>
+  <p class="mt-2 text-gray-700">Price: ${{ product.price }}</p>
+  <p class="mt-1 text-gray-500">Available: {{ product.qty }}</p>
+
+  <div class="mt-4">
+    <label>Quantity:</label>
+    <input
+      type="number"
+      [(ngModel)]="quantity"
+      [min]="1"
+      [max]="product.qty"
+      class="border rounded px-2 py-1 w-20"
+    />
+  </div>
+
+  <button
+    (click)="addToCart()"
+    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+  >
+    Add to Cart
+  </button>
+</div>
