@@ -1,11 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CartService } from './services/cart.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  standalone: true,
+  imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -20,8 +20,11 @@ export class CartService {
 
   addToCart(product: Product) {
     const item = this.cart.find((p) => p.id === product.id);
-    if (item) item.quantity += product.quantity;
-    else this.cart.push({ ...product });
+    if (item) {
+      item.quantity = product.quantity;
+    } else {
+      this.cart.push({ ...product });
+    }
     this.updateCartCount();
     this.saveCart();
   }
@@ -37,6 +40,10 @@ export class CartService {
     if (item) item.quantity = qty;
     this.updateCartCount();
     this.saveCart();
+  }
+
+  isInCart(id: number): boolean {
+    return this.cart.some((p) => p.id === id);
   }
 
   getCart() {

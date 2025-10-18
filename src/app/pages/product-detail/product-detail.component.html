@@ -116,7 +116,7 @@
             <div class="flex items-center gap-3">
               <div class="flex items-center bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200 focus-within:border-indigo-600 transition-colors">
                 <button 
-                  (click)="quantity = quantity > 1 ? quantity - 1 : 1"
+                  (click)="decrementQuantity()"
                   [disabled]="quantity <= 1"
                   class="px-4 py-2.5 text-gray-700 hover:bg-gray-200 active:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -126,13 +126,14 @@
                 </button>
                 <input
                   type="number"
-                  [(ngModel)]="quantity"
+                  [ngModel]="quantity"
+                  (ngModelChange)="onQuantityChange($event)"
                   [min]="1"
                   [max]="product.qty"
                   class="w-16 text-center text-base font-semibold bg-transparent border-none focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <button 
-                  (click)="quantity = quantity < product.qty ? quantity + 1 : product.qty"
+                  (click)="incrementQuantity()"
                   [disabled]="quantity >= product.qty"
                   class="px-4 py-2.5 text-gray-700 hover:bg-gray-200 active:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >

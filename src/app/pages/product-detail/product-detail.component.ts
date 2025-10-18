@@ -51,8 +51,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     try {
       this.product = await this.productService.getProductById(id);
 
-      // Initialize product images for gallery
       if (this.product) {
+        const cartItem = this.cartService.getCart().find(p => p.id === this.product!.id);
+        if (cartItem) {
+          this.quantity = cartItem.quantity;
+        }
+
+        // Initialize product images for gallery
         this.productImages = [
           this.product.imageUrl || '/assets/placeholder.svg',
           '/assets/placeholder-2.svg', // Add actual image URLs
@@ -85,27 +90,38 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   incrementQuantity(): void {
     if (this.product && this.quantity < this.product.qty) {
       this.quantity++;
+      this.updateCartQuantity();
     }
   }
 
   decrementQuantity(): void {
     if (this.quantity > 1) {
       this.quantity--;
+      this.updateCartQuantity();
     }
   }
 
-  onQuantityChange(event: any): void {
-    let value = parseInt(event.target.value, 10);
-
+  onQuantityChange(value: number): void {
     if (isNaN(value) || value < 1) {
-      value = 1;
+      this.quantity = 1;
+      this.updateCartQuantity();
+      return;
     }
 
     if (this.product && value > this.product.qty) {
-      value = this.product.qty;
+      this.quantity = this.product.qty;
+      this.updateCartQuantity();
+      return;
     }
 
     this.quantity = value;
+    this.updateCartQuantity();
+  }
+
+  updateCartQuantity(): void {
+    if (this.product && this.cartService.isInCart(this.product.id)) {
+      this.cartService.updateQuantity(this.product.id, this.quantity);
+    }
   }
 
   addToCart(): void {
