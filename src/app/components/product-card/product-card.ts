@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../../models/product.model';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.css',
+  styleUrls: ['./product-card.css'],
 })
 export class ProductCard {
   @Input() product!: Product;
-  
 }

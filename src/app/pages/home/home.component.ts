@@ -10,7 +10,7 @@ import { ProductCarouselComponent } from '../../components/silder/silder';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProductCard, ProductCarouselComponent],
+  imports: [CommonModule, RouterModule, ProductCarouselComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {

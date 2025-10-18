@@ -37,7 +37,6 @@ export class CheckoutComponent {
       this.cartService.clearCart();
     } catch (error) {
       console.error('Failed to submit order', error);
-      // Optionally, show an error message to the user
     }
   }
 
